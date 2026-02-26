@@ -17,7 +17,7 @@ def _org_to_list(org: Organization) -> OrganizationList:
     return OrganizationList(
         id=org.id,
         name=org.name,
-        building_id=org.building_id,
+        building_name=org.building.address if org.building else "",
         phone_numbers=[p.phone_number for p in org.phones],
         activity_names=[a.name for a in org.activities],
     )

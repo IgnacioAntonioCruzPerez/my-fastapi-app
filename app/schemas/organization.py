@@ -24,6 +24,6 @@ class OrganizationList(BaseModel):
     model_config = ConfigDict(from_attributes=True)
     id: int
     name: str
-    building_id: int
+    building_name: str
     phone_numbers: List[str] = []
     activity_names: List[str] = []

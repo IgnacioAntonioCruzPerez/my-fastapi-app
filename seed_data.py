@@ -29,11 +29,14 @@ def seed():
             print("Data already present, skipping seed.")
             return
 
-        # Buildings (address, lat, lon)
+        # Buildings (address, lat, lon) – expanded set
         buildings = [
             Building(address="g. Moscow, ul. Lenina 1, office 3", latitude=55.7558, longitude=37.6173),
             Building(address="Blukhera, 32/1", latitude=55.7512, longitude=37.6189),
             Building(address="Saint Petersburg, Nevsky 10", latitude=59.9343, longitude=30.3351),
+            Building(address="g. Moscow, ul. Tverskaya 5", latitude=55.7590, longitude=37.6150),
+            Building(address="Novosibirsk, Krasny Ave 12", latitude=55.0415, longitude=82.9346),
+            Building(address="Yekaterinburg, Malysheva 15", latitude=56.8389, longitude=60.6057),
         ]
         for b in buildings:
             db.add(b)
@@ -51,25 +54,31 @@ def seed():
         db.refresh(food)
         db.refresh(cars)
 
-        # Level 2 under Food: Meat products, Dairy products
+        # Level 2 under Food: Meat products, Dairy products, Bakery, Seafood
         meat_products = Activity(name="Meat products", parent_id=food.id, level=2)
         dairy_products = Activity(name="Dairy products", parent_id=food.id, level=2)
-        db.add_all([meat_products, dairy_products])
+        bakery = Activity(name="Bakery products", parent_id=food.id, level=2)
+        seafood = Activity(name="Seafood", parent_id=food.id, level=2)
+        db.add_all([meat_products, dairy_products, bakery, seafood])
         db.commit()
         db.refresh(meat_products)
         db.refresh(dairy_products)
+        db.refresh(bakery)
+        db.refresh(seafood)
 
-        # Level 2 under Cars: Freight, Passenger cars, Spare parts, Accessories
+        # Level 2 under Cars: Freight, Passenger cars, Spare parts, Accessories, Tires
         freight = Activity(name="Freight", parent_id=cars.id, level=2)
         passenger_cars = Activity(name="Passenger cars", parent_id=cars.id, level=2)
         spare_parts = Activity(name="Spare parts", parent_id=cars.id, level=2)
         accessories = Activity(name="Accessories", parent_id=cars.id, level=2)
-        db.add_all([freight, passenger_cars, spare_parts, accessories])
+        tires = Activity(name="Tires", parent_id=cars.id, level=2)
+        db.add_all([freight, passenger_cars, spare_parts, accessories, tires])
         db.commit()
         db.refresh(freight)
         db.refresh(passenger_cars)
         db.refresh(spare_parts)
         db.refresh(accessories)
+        db.refresh(tires)
 
         # Organizations (more data for testing)
         b1, b2, b3 = buildings[0], buildings[1], buildings[2]
